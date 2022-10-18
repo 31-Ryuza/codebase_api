@@ -9,8 +9,6 @@ const mongoConnectionPooling = require('../helpers/databases/mongodb/connection'
 
 const userHandler = require('../modules/user/handlers/api_handler');
 const toDoListHandler = require('../modules/toDoList/handlers/api_handler');
-const siswaHandler = require('../modules/Siswa/handlers/api_handler');
-const verifyRole = require("../modules/user/utils/validator")
 
 
 function AppServer() {
@@ -57,14 +55,6 @@ function AppServer() {
   this.server.put('/users/v1/updateToDoList/:id', toDoListHandler.updateToDoList);
   this.server.put('/users/v1/updateStatus/:id', toDoListHandler.updateStatus);
   this.server.del('/users/v1/deleteToDoList/:id', toDoListHandler.deleteToDoList);
-
-    //siswa API
-    this.server.get('/users/v1/siswaPage',jwtAuth.verifyToken,siswaHandler.getSiswaWithPagination);
-    this.server.get('/users/v1/siswa',jwtAuth.verifyToken,siswaHandler.getSiswaNoPagination);
-    this.server.post('/users/v1/addSiswa', jwtAuth.verifyToken, verifyRole.isValidRole, siswaHandler.addSiswa);
-    this.server.put('/users/v1/updateSiswa/:id', jwtAuth.verifyToken, verifyRole.isValidRole, siswaHandler.updateSiswa);
-    this.server.put('/users/v1/updateStatusSiswa/:id', jwtAuth.verifyToken, verifyRole.isValidRole, siswaHandler.updateStatus);
-    this.server.del('/users/v1/deleteSiswa/:id', jwtAuth.verifyToken, verifyRole.isValidRole, siswaHandler.deleteSiswa);
 
   //Initiation
   mongoConnectionPooling.init();
